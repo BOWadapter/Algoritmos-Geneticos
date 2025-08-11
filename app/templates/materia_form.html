@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>{{ materia and 'Editar Materia' or 'Registrar Materia' }}</h2>
+  <form method="post">
+    <label>Nombre <input name="nombre" value="{{ materia.nombre if materia else '' }}" required></label>
+    <label>Turno
+      <select name="turno" required>
+        <option value="MATUTINO" {{ 'selected' if materia and materia.turno.value=='MATUTINO' else '' }}>Matutino</option>
+        <option value="VESPERTINO" {{ 'selected' if materia and materia.turno.value=='VESPERTINO' else '' }}>Vespertino</option>
+      </select>
+    </label>
+    <label>Duración (bloques de 50 min)
+      <input type="number" min="1" max="8" name="bloques" value="{{ materia.bloques_duracion if materia else 2 }}" required>
+    </label>
+    <button type="submit">{{ materia and 'Actualizar' or 'Guardar' }}</button>
+  </form>
+</div>
+{% endblock %}

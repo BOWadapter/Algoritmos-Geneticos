@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Generar horario</h2>
+  <p>
+    El AG respeta: disponibilidad docente, turno, reservas, máx. 4 materias/día
+    por grupo y paralelismo de 6 grupos.
+  </p>
+  <form method="post" action="{{ url_for('main.generar') }}">
+    <button type="submit">Generar con AG</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>{{ mg and 'Editar Plan' or 'Añadir Materia al Plan del Grupo' }}</h2>
+  <form method="post">
+    <label>Grupo
+      <select name="grupo_id" required>
+        {% for g in grupos %}
+        <option value="{{ g.id }}" {{ 'selected' if mg and mg.grupo_id==g.id else '' }}>{{ g.nombre }} ({{ g.turno.value }})</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Materia
+      <select name="materia_id" required>
+        {% for m in materias %}
+        <option value="{{ m.id }}" {{ 'selected' if mg and mg.materia_id==m.id else '' }}>{{ m.nombre }} ({{ m.turno.value }})</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Sesiones por semana
+      <input type="number" name="sesiones_semana" min="1" max="5" value="{{ mg.sesiones_semana if mg else 1 }}" required>
+    </label>
+    <button type="submit">{{ mg and 'Actualizar' or 'Añadir' }}</button>
+  </form>
+</div>
+{% endblock %}

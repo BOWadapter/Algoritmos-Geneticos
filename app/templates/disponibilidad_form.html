@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Disponibilidad del Docente + Materias que puede impartir</h2>
+  <form method="post">
+    <div class="grid grid-2">
+      <label>Nombre del docente <input name="docente_nombre" required /></label>
+      <label>Correo <input name="correo" /></label>
+    </div>
+
+    <h3>Materias habilitadas</h3>
+    <div class="grid grid-3">
+      {% for m in materias %}
+      <label
+        ><input type="checkbox" name="materias_ids" value="{{ m.id }}" /> {{
+        m.nombre }} ({{ m.turno.value }})</label
+      >
+      {% endfor %}
+    </div>
+
+    <h3>Rangos de disponibilidad (bloques 1..8 por turno; L–V)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Día</th>
+          <th>Turno</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in DIAS %} {% for t in [Turno.MATUTINO, Turno.VESPERTINO] %}
+        <tr>
+          <td>{{ d }}</td>
+          <td>{{ t.value }}</td>
+          <td>
+            <input type="number" min="1" max="8" name="{{ d }}_{{ t }}_ini" />
+          </td>
+          <td>
+            <input type="number" min="1" max="8" name="{{ d }}_{{ t }}_fin" />
+          </td>
+        </tr>
+        {% endfor %} {% endfor %}
+      </tbody>
+    </table>
+
+    <button type="submit">Guardar disponibilidad</button>
+  </form>
+</div>
+{% endblock %}

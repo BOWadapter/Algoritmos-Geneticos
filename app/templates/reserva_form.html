@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Reservar módulos para una Materia de un Grupo</h2>
+  <form method="post">
+    <label
+      >Grupo
+      <select name="grupo_id" required>
+        {% for g in grupos %}
+        <option value="{{ g.id }}">{{ g.nombre }} ({{ g.turno.value }})</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label
+      >Materia
+      <select name="materia_id" required>
+        {% for m in materias %}
+        <option value="{{ m.id }}">{{ m.nombre }} ({{ m.turno.value }})</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label
+      >Día
+      <select name="dia" required>
+        {% for d in DIAS %}
+        <option value="{{ d }}">{{ d }}</option>
+        {% endfor %}
+      </select>
+    </label>
+
+    <label
+      >Turno
+      <select name="turno" required>
+        <option value="MATUTINO">Matutino</option>
+        <option value="VESPERTINO">Vespertino</option>
+      </select>
+    </label>
+
+    <div class="grid grid-2">
+      <label
+        >Bloque inicio (1..8)
+        <input type="number" min="1" max="8" name="bloque_inicio" required
+      /></label>
+      <label
+        >Bloque fin (1..8)
+        <input type="number" min="1" max="8" name="bloque_fin" required
+      /></label>
+    </div>
+    <button type="submit">Reservar</button>
+  </form>
+</div>
+{% endblock %}

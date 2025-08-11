@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>{{ grupo and 'Editar Grupo' or 'Registrar Grupo' }}</h2>
+  <form method="post">
+    <label>Nombre del grupo
+      <input name="nombre" value="{{ grupo.nombre if grupo else '' }}" required>
+    </label>
+    <label>Turno
+      <select name="turno" required>
+        <option value="MATUTINO" {{ 'selected' if grupo and grupo.turno.value=='MATUTINO' else '' }}>Matutino (07:00–13:40)</option>
+        <option value="VESPERTINO" {{ 'selected' if grupo and grupo.turno.value=='VESPERTINO' else '' }}>Vespertino (14:00–20:40)</option>
+      </select>
+    </label>
+    <button type="submit">{{ grupo and 'Actualizar' or 'Guardar' }}</button>
+  </form>
+</div>
+{% endblock %}

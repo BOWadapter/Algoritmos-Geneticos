@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Grupos</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Turno</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for g in grupos %}
+      <tr>
+        <td>{{ g.nombre }}</td>
+        <td>{{ g.turno.value }}</td>
+        <td>
+          <a href="{{ url_for('main.editar_grupo', grupo_id=g.id) }}">Editar</a>
+          <form
+            class="inline"
+            method="post"
+            action="{{ url_for('main.eliminar_grupo', grupo_id=g.id) }}"
+            onsubmit="return confirm('¿Eliminar grupo?')"
+          >
+            <button type="submit">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Resultado del Algoritmo Genético</h2>
+  {% if puntaje is not none %}
+  <p>Fitness: <strong>{{ puntaje }}</strong></p>
+  {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th>Grupo</th>
+        <th>Materia</th>
+        <th>Docente</th>
+        <th>Día</th>
+        <th>Turno</th>
+        <th>Bloque inicio</th>
+        <th>Bloque fin</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for h, m, d, g in resultado %}
+      <tr>
+        <td>{{ g.nombre }}</td>
+        <td>{{ m.nombre }}</td>
+        <td>{{ d.nombre }}</td>
+        <td>{{ h.dia }}</td>
+        <td>{{ h.turno.value }}</td>
+        <td>{{ h.bloque_inicio }}</td>
+        <td>{{ h.bloque_fin }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

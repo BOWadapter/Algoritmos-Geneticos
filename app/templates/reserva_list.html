@@ -1,0 +1,40 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Reservas de módulos</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Grupo</th>
+        <th>Materia</th>
+        <th>Día</th>
+        <th>Turno</th>
+        <th>Inicio</th>
+        <th>Fin</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r, g, m in reservas %}
+      <tr>
+        <td>{{ g.nombre }}</td>
+        <td>{{ m.nombre }}</td>
+        <td>{{ r.dia }}</td>
+        <td>{{ r.turno.value }}</td>
+        <td>{{ r.bloque_inicio }}</td>
+        <td>{{ r.bloque_fin }}</td>
+        <td>
+          <form
+            class="inline"
+            method="post"
+            action="{{ url_for('main.eliminar_reserva', reserva_id=r.id) }}"
+            onsubmit="return confirm('¿Eliminar reserva?')"
+          >
+            <button type="submit">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

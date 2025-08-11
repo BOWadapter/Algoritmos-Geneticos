@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Plan por Grupo</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Grupo</th>
+        <th>Materia</th>
+        <th>Sesiones/semana</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mg, g, m in plan %}
+      <tr>
+        <td>{{ g.nombre }} ({{ g.turno.value }})</td>
+        <td>{{ m.nombre }} ({{ m.turno.value }})</td>
+        <td>{{ mg.sesiones_semana }}</td>
+        <td>
+          <a href="{{ url_for('main.editar_plan', mg_id=mg.id) }}">Editar</a>
+          <form
+            class="inline"
+            method="post"
+            action="{{ url_for('main.eliminar_plan', mg_id=mg.id) }}"
+            onsubmit="return confirm('¿Eliminar del plan?')"
+          >
+            <button type="submit">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

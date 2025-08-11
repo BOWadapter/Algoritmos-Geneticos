@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Editar Docente</h2>
+  <form method="post">
+    <label
+      >Nombre <input name="nombre" value="{{ docente.nombre }}" required
+    /></label>
+    <label
+      >Correo <input name="correo" value="{{ docente.correo or '' }}"
+    /></label>
+
+    <h3>Materias habilitadas</h3>
+    <div class="grid grid-3">
+      {% for m in materias %}
+      <label>
+        <input type="checkbox" name="materias_ids" value="{{ m.id }}" {{
+        'checked' if m.id in ids_actuales else '' }}> {{ m.nombre }} ({{
+        m.turno.value }})
+      </label>
+      {% endfor %}
+    </div>
+
+    <p style="margin-top: 8px; font-size: 13px">
+      * Para editar disponibilidades, elimínalas en "Ver Docentes" y vuelve a
+      cargarlas en "Disponibilidad Docente".
+    </p>
+    <button type="submit">Guardar cambios</button>
+  </form>
+</div>
+{% endblock %}

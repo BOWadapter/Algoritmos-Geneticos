@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Tablero por Grupo</h2>
+  <div class="grid grid-2">
+    <form method="get" action="{{ url_for('main.tablero') }}">
+      <label>Grupo
+        <select name="grupo_id" required>
+          <option value="">-- Selecciona --</option>
+          {% for g in grupos %}
+          <option value="{{ g.id }}" {{ 'selected' if (grupo_sel and g.id==grupo_sel.id) else '' }}>
+            {{ g.nombre }} ({{ g.turno.value }})
+          </option>
+          {% endfor %}
+        </select>
+      </label>
+      <div style="margin-top:8px">
+        <button type="submit">Ver tablero</button>
+      </div>
+    </form>
+
+    <!-- Botón separado para evitar formularios anidados -->
+    <form method="post" action="{{ url_for('main.generar') }}" style="align-self:end">
+      <button type="submit">Generar ahora</button>
+    </form>
+  </div>
+</div>
+
+{% if grupo_sel %}
+  {% if total_asignaciones == 0 %}
+    <div class="card">
+      <p><strong>No hay clases asignadas</strong> para {{ grupo_sel.nombre }}.</p>
+      <p>Pulsa <em>Generar ahora</em> o verifica que existan: docentes con disponibilidad, 
+      materias en el plan del grupo y reservas válidas (bloques 1..8).</p>
+      <p style="font-size:12px;color:#666">Tip: revisa <code>/api/debug/horario/{{ grupo_sel.id }}</code> para inspeccionar.</p>
+    </div>
+  {% endif %}
+{% endif %}
+
+{% if grupo_sel and matriz and total_asignaciones > 0 %}
+<div class="card">
+  <h3>Horario de {{ grupo_sel.nombre }} — Turno {{ grupo_sel.turno.value }}</h3>
+  <p style="font-size:13px;color:#555">Clases encontradas: <strong>{{ total_asignaciones }}</strong></p>
+
+  <div style="overflow:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Bloque</th>
+          {% for d in DIAS %}
+          <th>{{ d }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for bloque in BLOQUES %}
+        <tr>
+          <td><strong>{{ bloque }}</strong></td>
+          {% for d in DIAS %}
+            {% set celda = matriz[bloque][d] %}
+            <td>
+              {% if celda %}
+                <div style="font-weight:600">{{ celda.materia }}</div>
+                <div style="font-size:12px;color:#444">{{ celda.docente }}</div>
+                <div style="font-size:11px;color:#666">({{ celda.turno }})</div>
+              {% else %}
+                <span style="color:#aaa">—</span>
+              {% endif %}
+            </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <p style="font-size:12px;color:#666;margin-top:8px">
+    Nota: cada fila representa un bloque de 50 min (1..8). Si una clase ocupa varios bloques,
+    verás la misma materia repetida en los bloques correspondientes.
+  </p>
+</div>
+{% endif %}
+{% endblock %}

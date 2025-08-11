@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>AG Horarios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: system-ui, Arial, sans-serif;
+        margin: 20px;
+      }
+      header,
+      nav,
+      main {
+        max-width: 1080px;
+        margin: auto;
+      }
+      nav a {
+        margin-right: 12px;
+      }
+      .card {
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        padding: 16px;
+        margin: 12px 0;
+      }
+      .grid {
+        display: grid;
+        gap: 12px;
+      }
+      .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        font-size: 14px;
+        vertical-align: top;
+      }
+      .ok {
+        color: #0a7;
+      }
+      .err {
+        color: #a00;
+      }
+      form.inline {
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Optimización de Horarios (Algoritmo Genético)</h1>
+      <nav>
+        <a href="{{ url_for('main.index') }}">Inicio</a>
+        <a href="{{ url_for('main.grupo_nuevo') }}">Grupos</a>
+        <a href="{{ url_for('main.materia_nueva') }}">Materias</a>
+        <a href="{{ url_for('main.plan_nuevo') }}">Plan por Grupo</a>
+        <a href="{{ url_for('main.disponibilidad_nueva') }}"
+          >Disponibilidad Docente</a
+        >
+        <a href="{{ url_for('main.reserva_nueva') }}">Reservas</a>
+        <a href="{{ url_for('main.listar_grupos') }}">Ver Grupos</a>
+        <a href="{{ url_for('main.listar_materias') }}">Ver Materias</a>
+        <a href="{{ url_for('main.listar_plan') }}">Ver Plan</a>
+        <a href="{{ url_for('main.listar_docentes') }}">Ver Docentes</a>
+        <a href="{{ url_for('main.listar_reservas') }}">Ver Reservas</a>
+        <a href="{{ url_for('main.listar_horario') }}">Ver Horario</a>
+        <a href="{{ url_for('main.tablero') }}">Tablero</a>
+      </nav>
+    </header>
+    <main>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% for
+      cat, msg in messages %}
+      <p class="{{ 'ok' if cat=='success' else 'err' }}">{{ msg }}</p>
+      {% endfor %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

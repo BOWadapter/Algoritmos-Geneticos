@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Materias</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Turno</th>
+        <th>Bloques</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in materias %}
+      <tr>
+        <td>{{ m.nombre }}</td>
+        <td>{{ m.turno.value }}</td>
+        <td>{{ m.bloques_duracion }}</td>
+        <td>
+          <a href="{{ url_for('main.editar_materia', materia_id=m.id) }}"
+            >Editar</a
+          >
+          <form
+            class="inline"
+            method="post"
+            action="{{ url_for('main.eliminar_materia', materia_id=m.id) }}"
+            onsubmit="return confirm('¿Eliminar materia?')"
+          >
+            <button type="submit">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

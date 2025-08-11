@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block content %}
+<div class="card">
+  <h2>Docentes</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Materias</th>
+        <th>Disponibilidades</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in docentes %}
+      <tr>
+        <td>{{ d.nombre }}</td>
+        <td>{{ d.correo }}</td>
+        <td>
+          {% for dm in d.materias %}
+          <span>{{ dm.materia.nombre }} ({{ dm.materia.turno.value }})</span>{%
+          if not loop.last %}, {% endif %} {% endfor %}
+        </td>
+        <td>
+          {% for disp in d.disponibilidades %}
+          <div>
+            {{ disp.dia }} {{ disp.turno.value }} [{{ disp.bloque_inicio }}-{{
+            disp.bloque_fin }}]
+            <form
+              class="inline"
+              method="post"
+              action="{{ url_for('main.eliminar_disponibilidad', disp_id=disp.id) }}"
+              onsubmit="return confirm('¿Eliminar disponibilidad?')"
+            >
+              <button type="submit">x</button>
+            </form>
+          </div>
+          {% endfor %}
+        </td>
+        <td>
+          <a href="{{ url_for('main.editar_docente', docente_id=d.id) }}"
+            >Editar</a
+          >
+          <form
+            class="inline"
+            method="post"
+            action="{{ url_for('main.eliminar_docente', docente_id=d.id) }}"
+            onsubmit="return confirm('¿Eliminar docente?')"
+          >
+            <button type="submit">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
